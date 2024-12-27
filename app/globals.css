@@ -12,6 +12,7 @@
 
 html,
 body {
+  background-color: rgb(248, 247, 215);
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -38,5 +39,287 @@ a {
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+.grid_container{
+  display: grid;
+  background-color: rgb(248, 247, 215);
+  height: 100vh;
+  grid-template-columns: repeat(auto-fill, minmax(10%, 1fr));
+  gap:10px;
+  height: auto;
+  overflow-y: auto;
+  padding: 1%;
+}
+
+.card{
+ border-radius: 5%;
+ box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+ font-size: x-small;
+ background-color: rgb(248, 248, 0);
+}
+
+.logo{
+width: 100%;
+}
+
+.card .sub{
+  font-size: xx-small;
+}
+
+.chart{
+  position: fixed;
+  display: grid;
+  place-items: center; 
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  height: 95vh;
+  width: 95vw;
+  background-color: #fff; /* Color de fondo del popup */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra */
+  text-align: center; /* Centrar texto */
+  padding: 20px; /* Espaciado interno */
+}
+
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  background-color: #fff; /* Color de fondo del popup */
+  border-radius: 10px; /* Bordes redondeados */
+  padding: 20px; /* Espaciado interno */
+  width: 400px; /* Ancho fijo */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra */
+  text-align: center; /* Centrar texto */
+}
+
+.popup2 {
+  position: fixed;
+  top: 50%;
+  max-height: 100vh;
+  max-width: 100vw;
+  left: 50%;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  background-color: #fff; /* Color de fondo del popup */
+  border-radius: 10px; /* Bordes redondeados */
+  padding: 20px; /* Espaciado interno */
+   /* Ancho fijo */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra */
+  text-align: center; /* Centrar texto */
+  overflow-y: auto;
+}
+
+/* Botón de cierre */
+.close-btn {
+  background-color: #f44336; /* Color de fondo del botón de cierre */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  padding: 10px 15px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  margin-top: 20px; /* Espacio por encima */
+}
+
+.close-btn1 {
+  background-color: #f44336; /* Color de fondo del botón de cierre */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  padding: 2px 2px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  margin-top: 20px; /* Espacio por encima */
+}
+
+.open-btn {
+  background-color: rgb(26, 188, 156); /* Color de fondo del botón de cierre */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  padding: 10px 15px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  margin-top: 20px; /* Espacio por encima */
+}
+
+.open-btn1 {
+  background-color: rgb(26, 188, 156); /* Color de fondo del botón de cierre */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  padding: 2px 2px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  margin-top: 20px; /* Espacio por encima */
+}
+
+.open-btn1:hover {
+  background-color: rgba(26, 188, 156, 0.5);
+}
+
+.close-btn1:hover {
+  background-color: #b43026;
+}
+
+.close-btn:hover {
+  background-color: #b43026;
+}
+
+.open-btn:hover {
+  background-color: rgba(26, 188, 156, 0.5);
+}
+
+.popup input {
+  padding: 10px;
+  border: 1px solid #000000; /* Color del borde */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 16px; /* Tamaño de fuente */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+}
+
+.popup input:focus {
+  border-color: #1abc9c; /* Color del borde al enfocar */
+  box-shadow: 0 0 5px rgba(26, 188, 156, 0.5); /* Sombra al enfocar */
+  outline: none; /* Quitar el contorno por defecto */
+}
+
+.popup input::placeholder {
+  color: #bdc3c7; /* Color del texto del placeholder */
+  font-style: italic; /* Estilo en cursiva */
+}
+
+nav {
+  background-color: rgb(248, 247, 215); /* Color de fondo del nav */
+  padding: 15px; /* Espaciado interno */
+  display: flex; /* Usar flexbox para alinear los elementos */
+  justify-content: space-around; /* Espacio equitativo entre elementos */
+  align-items: center; /* Centrar elementos verticalmente */
+  border-bottom: 1px solid black;
+}
+
+nav div {
+  color: black; /* Color del texto */
+  font-size: 18px; /* Tamaño de fuente */
+  padding: 10px 15px; /* Espaciado interno de los div */
+  transition: background-color 0.3s; /* Transiciones suaves */
+  cursor: pointer; /* Cambiar el cursor al pasar el ratón */
+}
+
+nav input{
+  padding: 1px;
+  border: 1px solid #000000; /* Color del borde */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 16px; /* Tamaño de fuente */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+}
+
+nav select{
+  padding: 1px;
+  border: 1px solid #000000; /* Color del borde */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 16px; /* Tamaño de fuente */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #000000; /* Color del borde */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 16px; /* Tamaño de fuente */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+}
+
+.input:focus {
+  border-color: #1abc9c; /* Color del borde al enfocar */
+  box-shadow: 0 0 5px rgba(26, 188, 156, 0.5); /* Sombra al enfocar */
+  outline: none; /* Quitar el contorno por defecto */
+}
+
+.card-image{
+  width: 100%; /* Imagen ocupa el 100% del ancho del div */
+  height: auto; /* Mantener la proporción de la imagen */
+  display: block; /* Eliminar espacio debajo de la imagen */
+}
+
+.cart-button {
+  background-color: #1abc9c; /* Color de fondo */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  padding: 10px 20px; /* Espaciado interno */
+  font-size: 16px; /* Tamaño de fuente */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambiar cursor al pasar el ratón */
+  display: flex; /* Usar flexbox para alinear el ícono y texto */
+  align-items: center; /* Centrar verticalmente */
+  transition: background-color 0.3s; /* Transición suave */
+}
+
+.card:hover {
+  animation: pulse 1s infinite; /* Aplicar la animación al hacer hover */
+}
+
+.table-container {
+  overflow-x: auto; /* Permite el desplazamiento horizontal en dispositivos pequeños */
+}
+
+.table {
+  width: 100%; /* La tabla ocupa el 100% del contenedor */
+  border-collapse: collapse; /* Elimina el espacio entre celdas */
+}
+
+.table th, .table td {
+  border: 1px solid #ccc; /* Borde para las celdas */
+  padding: 10px; /* Espaciado interno */
+  text-align: left; /* Alineación del texto */
+  word-wrap: break-word; /* Permite el salto de línea en palabras largas */
+  width: 25%; /* Ancho uniforme para cada celda, ajusta según sea necesario */
+}
+
+.table th {
+  background-color: #f2f2f2; /* Color de fondo para los encabezados */
+  font-weight: bold; /* Negrita para los encabezados */
+}
+
+.table tr:hover{
+  background-color: rgb(248, 248, 0);
+}
+
+.confetti-container {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  overflow: hidden; /* Evita el desbordamiento */
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Asegúrate de que el canvas esté detrás del texto */
+}
+
+.text-overlay {
+  position: relative;
+  z-index: 2; /* Asegúrate de que el texto esté por delante del canvas */
+  color: white; /* Cambia el color según sea necesario */
+  text-align: center; /* Centra el texto */
+  top: 50%;
+  transform: translateY(-50%); /* Centra verticalmente */
+}
+
+/* Definir la animación de pulsaciones */
+@keyframes pulse {
+  0% {
+      transform: scale(1); /* Escala original */
+  }
+  50% {
+      transform: scale(1.1); /* Escala aumentada */
+  }
+  100% {
+      transform: scale(1); /* Regresar a la escala original */
   }
 }

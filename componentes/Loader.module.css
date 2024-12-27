@@ -1,0 +1,26 @@
+.loader {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    height: 100%; /* Ocupa toda la altura de la ventana */
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
+  }
+  
+  .spinner {
+    border: 8px solid #f3f3f3; /* Color de fondo */
+    border-top: 8px solid #3498db; /* Color de la parte superior */
+    border-radius: 50%;
+    width: 50px; /* Tamaño del spinner */
+    height: 50px; /* Tamaño del spinner */
+    animation: spin 1s linear infinite; /* Animación */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .p {
+    margin-top: 10px; /* Espacio entre el spinner y el texto */
+    font-size: 18px;
+  }
