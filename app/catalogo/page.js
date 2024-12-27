@@ -289,6 +289,12 @@ export default function Catalogo(){
                 doc.save(`${id}.pdf`);
             };
 
+            const fui = (e) => {
+                if(e){
+                    return e.tofixed(2)
+                }
+            }
+
     return(
         <>
         <nav>
@@ -393,7 +399,7 @@ export default function Catalogo(){
                                         <tr>
                                             <td>{el.orden_id}</td>
                                             <td>{el.articulos}</td>
-                                            <td>{el.saldo.toFixed(2)}</td>
+                                            <td>{fui(el.saldo)}</td>
                                             <td>{el.estado}</td>
                                             <td><button className="open-btn1" onClick={(e) => {generatePDF(e, el.orden_id, el)}}>Descargar</button></td>
                                         </tr>
