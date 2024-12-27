@@ -328,7 +328,7 @@ export default function Catalogo(){
             </div>
             <div>
             <div style={{backgroundColor:"rgb(248, 248, 0)", color:"black", borderRadius:"10px"}}>
-                Puntos restantes: {user_data.saldo.toFixed(2)}
+                Puntos restantes: { user_data.sado ? user_data.saldo.toFixed(2): 0}
             </div>
             {
                 ordenes && <button onClick={(e) => {setOpenOr(true)}} className="open-btn1">Ver ordenes</button>
