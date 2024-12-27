@@ -1,4 +1,5 @@
 'use client'
+
 import { useContext, useState, useEffect, useRef} from "react"
 import { authContext } from "@/componentes/authProvider"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -271,19 +272,8 @@ export default function Catalogo(){
     useEffect(() => {
         obtener_ordenes()
       }, [openOr])
-      /*
-    const generatePDF = (e, id, detalles) => {
-            e.preventDefault()
-            const doc = new jsPDF()
-            doc.text(`
-            Orden: ${id}
-            Detalles: 
-            ${detalles.articulos}
-                `, 10, 10)
-            doc.save(`${id}.pdf`)
-        }*/
-
-            const generatePDF = (e, id, detalles) => {
+            
+      const generatePDF = (e, id, detalles) => {
                 e.preventDefault();
                 const doc = new jsPDF();
             
@@ -487,3 +477,4 @@ export default function Catalogo(){
         </>
     )
 }
+
