@@ -611,7 +611,7 @@ export default function Admin(){
                                                         {el.id}
                                                     </td>
                                                     <td>
-                                                        <Image src={`/${path}`} width={50} height={50} alt={el.nombre}/><br/>
+                                                        <Image src={`${path}`} width={50} height={50} alt={el.nombre}/><br/>
                                                     </td>
                                                     <td>{el.nombre}</td>
                                                     <td>{el.descripcion}</td>
