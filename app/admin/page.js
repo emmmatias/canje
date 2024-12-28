@@ -599,15 +599,16 @@ export default function Admin(){
                                    <tbody>
                                     {
                                         productos.map((el, index) => {
-                                            let path = el.imagenes
-                                            let path1 = path.split("public\\")
+                                            //let path = el.imagenes
+                                            let path = el.imagenes.replace('/opt/render/project/src/public', '');
+                                            //let path1 = path.split("public\\")
                                             return(
                                                 <tr key={index}>
                                                     <td>
                                                         {el.id}
                                                     </td>
                                                     <td>
-                                                        <Image src={`/${path1[1]}`} width={50} height={50} alt={el.nombre}/><br/>
+                                                        <Image src={`/${path}`} width={50} height={50} alt={el.nombre}/><br/>
                                                     </td>
                                                     <td>{el.nombre}</td>
                                                     <td>{el.descripcion}</td>
