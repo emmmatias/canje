@@ -600,7 +600,10 @@ export default function Admin(){
                                     {
                                         productos.map((el, index) => {
                                             //let path = el.imagenes
-                                            let path = el.imagenes.replace('/opt/render/project/src/public', '');
+                                            let path = el.imagenes.replace('/opt/render/project/src/public', '')
+                                            if (!path.startsWith('/')) {
+                                                path = '/' + path;
+                                            }
                                             //let path1 = path.split("public\\")
                                             return(
                                                 <tr key={index}>
