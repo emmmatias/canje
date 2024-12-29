@@ -40,7 +40,15 @@ export default function Catalogo(){
     const router = useRouter()
 
     const carritoRef = useRef(carrito);
-
+    useEffect(() => {
+        console.log(
+            `
+            DATOS DEL CONTEXTO:
+            ${token}
+            ${user_data}
+            `
+        )
+    }, [])
     const obtener_catalogo = async () => {
         try {
             setLoading(true)
