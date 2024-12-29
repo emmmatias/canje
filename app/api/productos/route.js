@@ -77,7 +77,7 @@ export const POST = async (req, res) => {
                 ) VALUES (
                 ?,?,?,?,?,?,? 
                 )    
-        `,[path.join(directoryPath, id_unico.concat(fileExtension)), nombre, descripcion, categorias, costo, stock, variantes])
+        `,[`${id_unico.concat(fileExtension)}`, nombre, descripcion, categorias, costo, stock, variantes])
         return new Response(JSON.stringify({message: 'Operacion Exitosa'}), {
             status: 200
         })

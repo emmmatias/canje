@@ -141,6 +141,9 @@ export default function Catalogo(){
             alert('No tienes saldo suficiente')
         }
     }
+    useEffect(() => {
+        console.log('DEtaliii', detail)
+    }, [detail])
 
     const handlefin = async (e) => {
         setConset(true)
@@ -357,11 +360,11 @@ export default function Catalogo(){
                 {
                 productos.length > 0 ? productos.map((el, index) => {
                     let path = el.imagenes
-                    let path1 = path.split("public\\")
+                    //let path1 = path.split("public\\")
                     if(el.stock > 0){
                         return(
                             <div key={index} className="card" onClick={(e) => {setDetail(productos[index])}}>
-                                <Image className="card-image"  src={`/${path1[1]}`} width={80} height={80} alt={el.nombre}/>
+                                <Image className="card-image"  src={`/${path}`} width={80} height={80} alt={el.nombre}/>
                                 <div style={{ maxHeight: "100%", padding:"5%", backgroundColor:"rgb(248, 248, 0)", display:"grid", gridTemplateColumns:"1fr", gap:"3%"}}>
                                 <h4>{el.nombre}</h4>
                                 <p>{el.descripcion}</p>
@@ -414,7 +417,7 @@ export default function Catalogo(){
         {
             detail && <div className="popup">
             <h3 style={{marginBottom:"2%"}}>{detail.nombre}</h3>
-            <Image src={`/${detail.imagenes.split("public\\")[1]}`} width={200} height={200} alt={detail.nombre}/><br/>
+            <Image src={`/${detail.imagenes}`} width={200} height={200} alt={detail.nombre}/><br/>
             <p style={{marginTop:"2%"}}>{detail.descripcion}</p>
             <p style={{marginTop:"2%"}}>{detail.costo} puntos</p>
             {
