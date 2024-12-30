@@ -367,6 +367,7 @@ export default function Admin(){
     const generatePDF = (e, id, usuario, detalles) => {
         e.preventDefault()
         const doc = new jsPDF()
+        const articulosConSaltos = detalles.replace(/,/g, '\n');
         doc.text(`
         Orden: ${id}
         Usuario: ${usuario.usuario}

@@ -300,7 +300,7 @@ export default function Catalogo(){
                 `, 10, 10);
             
                 doc.save(`${id}.pdf`);
-            };
+            }
 
             const fui = (e) => {
                 if(e){
