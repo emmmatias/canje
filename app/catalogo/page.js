@@ -223,6 +223,7 @@ export default function Catalogo(){
                 )
             })
             setProductos([...objetosFiltrados])
+            
         }
         if(categorias == 'todas'){
             obtener_catalogo()
@@ -437,6 +438,7 @@ export default function Catalogo(){
                 {detail.variantes.length > 0 && <>
                 <label>Variantes</label>
                 <select onChange={(e) => setVariante(e.target.value)} id="variantes">
+                <option value={'Sin preferencia'}>{'Elegí uno'}</option>
                     {
                         detail.variantes.split(',').map((el,index) => {
                             return(
