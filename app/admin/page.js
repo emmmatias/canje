@@ -416,6 +416,10 @@ export default function Admin(){
                 <input className="input" id="nom" onChange={(e) => {setUser_ed(prev => ({...prev, nombre: e.target.value}))}} value={user_ed.nombre} placeholder="nombre"/>
                 <label htmlFor="us">Usuario</label>
                 <input className="input" id="us" onChange={(e) => {setUser_ed(prev => ({...prev, usuario: e.target.value}))}} value={user_ed.usuario}  placeholder="usuario" />
+                <label htmlFor="dni">Dni</label>
+                        <input id="dni" className="input" onChange={(e) => {setUser_ed(prev => ({...prev, dni: e.target.value}))}} value={user_ed.dni ? user_ed.dni : ''}  placeholder="dni" />
+                        <label htmlFor="tel">Telefono</label>
+                        <input className="input" id="tel" onChange={(e) => {setUser_ed(prev => ({...prev, telefono: e.target.value}))}} value={user_ed.telefono ? user_ed.telefono : ''}  placeholder="telefono" />
                 <label htmlFor="con">Contraseña</label>
                 <input className="input" id="con" onChange={(e) => {setUser_ed(prev => ({...prev, contraseña: e.target.value}))}} value={user_ed.contraseña}  placeholder="contraseña" />
                 <label htmlFor="sal">Saldo</label>
@@ -493,6 +497,10 @@ export default function Admin(){
                     <div>
                         <label htmlFor="nom">Nombre</label><br/>
                         <input id="nom" onChange={(e) => {setUser_ed(prev => ({...prev, nombre: e.target.value}))}} value={user_ed.nombre} placeholder="nombre"/><br/>
+                        <label htmlFor="dni">Dni</label><br/>
+                        <input id="dni" onChange={(e) => {setUser_ed(prev => ({...prev, dni: e.target.value}))}} value={user_ed.contraseña}  placeholder="dni" /><br/>
+                        <label htmlFor="tel">Telefono</label><br/>
+                        <input id="tel" onChange={(e) => {setUser_ed(prev => ({...prev, telefono: e.target.value}))}} value={user_ed.contraseña}  placeholder="telefono" /><br/>
                         <label htmlFor="us">Usuario</label><br/>
                         <input id="us" onChange={(e) => {setUser_ed(prev => ({...prev, usuario: e.target.value}))}} value={user_ed.usuario}  placeholder="usuario" /><br/>
                         <label htmlFor="con">Contraseña</label><br/>
@@ -666,9 +674,9 @@ export default function Admin(){
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <td>
-                                        nombre
-                                    </td>
+                                    <td>nombre</td>
+                                    <td>dni</td>
+                                    <td>telefono</td>
                                     <td>usuario</td>
                                     <td>contraseña</td>
                                     <td>saldo</td>
@@ -684,6 +692,8 @@ export default function Admin(){
                                         return(
                                             <tr key={index}>
                                             <td>{el.nombre}</td>
+                                            <td>{el.dni}</td>
+                                            <td>{el.telefono}</td>
                                             <td>{el.usuario}</td>
                                             <td>{el.contraseña}</td>
                                             <td>{el.saldo}</td>

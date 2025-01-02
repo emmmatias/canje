@@ -62,14 +62,14 @@ DROP TABLE productos
     delete from productos    
     `)*/
 
-    await db.run(`
+    /*await db.run(`
         CREATE TABLE IF NOT EXISTS destacados (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT,
         orden TEXT
         activa BOOLEAN
         )
-            `)
+            `)*/
 
 /*db.run(`
 UPDATE USUARIOS SET saldo = ? where usuario = ?
@@ -86,5 +86,9 @@ INSERT INTO USUARIOS (
 ) VALUES (
     ?,?,?,?,?,?
 )`, ['MATIAS', 'mati123', 'AAA', 2500, '', ''])*/
+/*
+db.run(`
+ALTER TABLE USUARIOS ADD COLUMN telefono text
+    `)*/
 
 //db.run(`ALTER TABLE ordenes ADD COLUMN estado TEXT DEFAULT "pendiente"`)

@@ -38,9 +38,9 @@ export const PUT = async (req, res) => {
         jwt.verify(token, SECRET_KEY)
         const db = await database()
         await db.run(`
-        UPDATE USUARIOS SET nombre = ?, usuario = ?, contraseña = ?, saldo = ?
+        UPDATE USUARIOS SET nombre = ?, usuario = ?, contraseña = ?, saldo = ?, telefono = ?, dni = ? 
         where id = ? 
-        `, [user.nombre, user.usuario, user.contraseña, user.saldo, user.id])
+        `, [user.nombre, user.usuario, user.contraseña, user.saldo, user.telefono, user.dni, user.id])
         return new Response(JSON.stringify({message: 'Modificacion existosa'}), {
             status: 200
         })
@@ -76,8 +76,8 @@ export const POST = async (req, res) => {
     try {
         jwt.verify(token, SECRET_KEY)
         const db = await database()
-        await db.run(`INSERT INTO USUARIOS (nombre, usuario, contraseña, saldo, ordenes, carrito) VALUES (
-            ?,?,?,?,?,?)`, [user.nombre, user.usuario, user.contraseña, user.saldo, '', ''])
+        await db.run(`INSERT INTO USUARIOS (nombre, usuario, contraseña, saldo, ordenes, carrito, dni, telefono) VALUES (
+            ?,?,?,?,?,?,?,?)`, [user.nombre, user.usuario, user.contraseña, user.saldo, '', '', user.dni, user.telefono])
         return new Response(JSON.stringify({message: 'Alta existosa'}), {
             status: 200
         })
