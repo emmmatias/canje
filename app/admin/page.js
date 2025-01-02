@@ -36,6 +36,10 @@ export default function Admin(){
     const [user_el, setUser_el] = useState({})
     const [ordenes, setOrdenes] = useState([]) 
     const [editando_or, setEditando_or] = useState(false)
+    const [destacando, setDestacando] = useState(false)
+    const [destacados, setDestacados] = useState('')
+    const [a_destacar, setA_destacar] = useState('')
+    const [n_destacar, setN_destacar] = useState(0)
     const [or, setOr] = useState({})
 
     const obtener_catalogo = async () => {
@@ -50,6 +54,7 @@ export default function Admin(){
             if(response.ok){
                 let data = await response.json()
                 console.log(data)
+                setDestacados(data.destacados.orden)
                 setProductos(data.catalogo)
             }
         } catch (error) {
@@ -389,6 +394,20 @@ export default function Admin(){
         setEditprod(prev => ({...prev, costo: Number(v)}))
     }
 
+    const el_esp = async () => {
+        let val = destacados
+        let ids = val.replace(/\s+/g, '').split(',')
+        const ids_validos = new Set(productos.map(item => item.id))
+        const idsFiltrados = ids.filter(id => ids_validos.has(Number(id)))
+        setDestacados(idsFiltrados.join(','))
+        let response = fetch(`/api/destacados`, {
+            method:'POST',
+            body: JSON.stringify({
+                destacados
+            })
+        })
+    }
+
     return(
         <>
         {
@@ -582,6 +601,11 @@ export default function Admin(){
                     <div >
                         <div>
                             <button className="open-btn" onClick={(e) => {setAdding(true)}}>Añadir producto</button>
+                            <div>
+                                <h6>{'Separa por comas tus productos destacados (sus ids)'}</h6>
+                                <input onChange={(e) => {setDestacados(e.target.value)}} value={destacados}/>
+                            </div>
+                            <button className="open-btn" onClick={(e) => {el_esp()}}>Actualizar Destacados</button>
                             {
                                 <table className="table">
                                    <thead>
@@ -594,7 +618,7 @@ export default function Admin(){
                                         <td>categorias</td>
                                         <td>stock</td>
                                         <td>costo</td>
-                                        <td>acciones</td>
+                                        <td>Orden</td>
                                     </tr>
                                    </thead>
                                    <tbody>
@@ -612,7 +636,7 @@ export default function Admin(){
                                                         {el.id}
                                                     </td>
                                                     <td>
-                                                        <Image src={`${path}`} width={50} height={50} alt={el.nombre}/><br/>
+                                                        <Image src={`${path}`} width={50} height={50} alt={el.nombre} quality={100} /><br/>
                                                     </td>
                                                     <td>{el.nombre}</td>
                                                     <td>{el.descripcion}</td>

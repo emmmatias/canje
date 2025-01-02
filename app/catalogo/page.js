@@ -216,17 +216,18 @@ export default function Catalogo(){
     },[carrito])
 
     useEffect(() => {
-        if(categorias != 'todas'){
-            const objetosFiltrados = productos.filter(objeto => {
-                return (
-                    objeto.categorias.toLowerCase().includes(categorias.toLowerCase())
-                )
-            })
-            setProductos([...objetosFiltrados])
-            
-        }
-        if(categorias == 'todas'){
-            obtener_catalogo()
+        if(categorias.length > 0){
+            if(categorias != 'todas'){
+                const objetosFiltrados = productos.filter(objeto => {
+                    return (
+                        objeto.categorias.toLowerCase().includes(categorias.toLowerCase())
+                    )
+                })
+                setProductos([...objetosFiltrados])
+            }
+            if(categorias == 'todas'){
+                obtener_catalogo()
+            }
         }
     }, [categorias])
 
@@ -313,7 +314,7 @@ export default function Catalogo(){
         <>
         <nav>
             <div>
-            <Image src={`/logo_tienda3.png`} className="logo" width={80} height={80} alt={'logo'}/>
+            <Image src={`/logo_tienda3.png`} className="logo" width={80} height={80} alt={'logo'} layout="responsive"  quality={100}/>
             </div>
             <div>
                 <input onChange={(e) => {setBusqueda(e.target.value)}} placeholder="¿Que estás buscando?"/>
@@ -349,9 +350,9 @@ export default function Catalogo(){
             }
             </div>
             <div>
-                <button className="cart-button" onClick={(e) => setOpenchart(true)}>
+                <button className={carrito.items.length > 0 ? "cart-button2" : "cart-button"} onClick={(e) => setOpenchart(true)}>
                 <FontAwesomeIcon icon={faShoppingCart} />
-                    Ir al carrito
+                    Ir al carrito {`${carrito.items.length > 0 ? carrito.items.length : ''}`}
                 </button>
             </div>
         </nav>
@@ -375,12 +376,12 @@ export default function Catalogo(){
                     if(el.stock > 0){
                         return(
                             <div key={index} className="card" onClick={(e) => {setDetail(productos[index])}}>
-                                <Image className="card-image"  src={`/${path}`} width={80} height={80} alt={el.nombre}/>
+                                <Image className="card-image"  quality={100} layout="responsive" src={`/${path}`} width={80} height={80} alt={el.nombre}/>
                                 <div style={{ maxHeight: "100%", padding:"5%", backgroundColor:"rgb(248, 248, 0)", display:"grid", gridTemplateColumns:"1fr", gap:"3%"}}>
                                 <h4>{el.nombre}</h4>
                                 <p>{el.descripcion}</p>
-                                <h5>{el.costo}</h5>
-                                <p className="sub">Quedan: {el.stock}</p>
+                                <h5>Costo: {el.costo}</h5>
+                                {/*<p className="sub">Quedan: {el.stock}</p>*/}
                                 </div>
                             </div>
                         )
@@ -428,7 +429,7 @@ export default function Catalogo(){
         {
             detail && <div className="popup">
             <h3 style={{marginBottom:"2%"}}>{detail.nombre}</h3>
-            <Image src={`/${detail.imagenes}`} width={200} height={200} alt={detail.nombre}/><br/>
+            <Image src={`/${detail.imagenes}`} layout="responsive" quality={100} width={200} height={200} alt={detail.nombre}/><br/>
             <p style={{marginTop:"2%"}}>{detail.descripcion}</p>
             <p style={{marginTop:"2%"}}>{detail.costo} puntos</p>
             {

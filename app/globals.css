@@ -53,10 +53,30 @@ a {
   padding: 1%;
 }
 
+@media (max-width: 600px) {
+  .grid_container {
+      grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas pequeñas */
+  }
+}
+
+/* Estilos para pantallas medianas (tabletas) */
+@media (min-width: 601px) and (max-width: 900px) {
+  .grid_container {
+      grid-template-columns: repeat(3, 1fr); /* 3 columnas en tabletas */
+  }
+}
+
+/* Estilos para pantallas grandes */
+@media (min-width: 901px) {
+  .grid_container {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Se adapta a pantallas más grandes */
+  }
+}
+
 .card{
  border-radius: 5%;
  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
- font-size: x-small;
+ font-size: medium;
  background-color: rgb(248, 248, 0);
 }
 
@@ -97,6 +117,8 @@ width: 100%;
   width: 400px; /* Ancho fijo */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra */
   text-align: center; /* Centrar texto */
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .popup2 {
@@ -145,6 +167,17 @@ width: 100%;
   border-radius: 5px; /* Bordes redondeados */
   cursor: pointer; /* Cambia el cursor al pasar el ratón */
   margin-top: 20px; /* Espacio por encima */
+}
+
+.cart-button2 {
+  background-color: rgb(26, 188, 156); /* Color de fondo del botón de cierre */
+  color: white; /* Color del texto */
+  border: none; /* Sin borde */
+  padding: 10px 15px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  margin-top: 20px; /* Espacio por encima */
+  animation: pulse 1s infinite;
 }
 
 .open-btn1 {
@@ -225,6 +258,34 @@ nav select{
   transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
 }
 
+@media (max-width: 600px) {
+  nav {
+      flex-direction: column; /* Cambiar a columna en móviles */
+      align-items: flex-start; /* Alinear elementos al inicio */
+      padding: 10px; /* Ajustar el padding */
+  }
+
+  nav div {
+      font-size: 16px; /* Reducir el tamaño de fuente */
+      padding: 8px 10px; /* Ajustar espaciado interno */
+  }
+
+  nav input, nav select {
+      font-size: 14px; /* Reducir el tamaño de fuente para inputs y selects */
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  nav {
+      flex-direction: row; /* Volver a fila en tabletas */
+      justify-content: space-between; /* Espacio entre elementos */
+  }
+
+  nav div {
+      font-size: 17px; /* Ajustar tamaño de fuente para tabletas */
+  }
+}
+
 .input {
   padding: 10px;
   border: 1px solid #000000; /* Color del borde */
@@ -243,6 +304,7 @@ nav select{
   width: 100%; /* Imagen ocupa el 100% del ancho del div */
   height: auto; /* Mantener la proporción de la imagen */
   display: block; /* Eliminar espacio debajo de la imagen */
+
 }
 
 .cart-button {

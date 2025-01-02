@@ -11,8 +11,23 @@ export const POST = async (req, res) => {
         let catalogo = await db.all(`
         SELECT * from productos
         `)
+        let destacados = await db.get(`
+            SELECT orden from destacados
+            `)
+        console.log('destacadosssss', destacados)
         if(catalogo.length > 0){
-            return new Response(JSON.stringify({ catalogo }), {
+            if(destacados.orden.length > 0){
+                let idOrder = destacados.orden.split(',').map(Number)
+                let ordered = catalogo.filter(obj => idOrder.includes(obj.id)).sort((a, b) => {
+                    return idOrder.indexOf(a.id) - idOrder.indexOf(b.id);
+                  })
+                let others = catalogo.filter(obj => !idOrder.includes(obj.id))
+                let sortedArr = [...ordered, ...others]
+                return new Response(JSON.stringify({ catalogo: sortedArr, destacados: destacados ? destacados : '' }), {
+                    status: 200
+                })
+            }
+            return new Response(JSON.stringify({ catalogo, destacados: destacados ? destacados : '' }), {
                 status: 200
             })
         }

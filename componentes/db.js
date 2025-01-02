@@ -23,6 +23,16 @@ const database = async () => {
     carrito LONGTEXT
     )
         `)
+
+    await db.run(`
+          CREATE TABLE IF NOT EXISTS destacados (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          nombre TEXT,
+          orden TEXT
+          activa BOOLEAN
+          )
+              `)
+
     await db.run(`
     CREATE TABLE IF NOT EXISTS ordenes (
     id TEXT NOT NULL,

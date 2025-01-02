@@ -57,10 +57,19 @@ DROP TABLE productos
         variantes TEXT
         )
             `)*/
-
+/*
     await db.run(`
     delete from productos    
-    `)
+    `)*/
+
+    await db.run(`
+        CREATE TABLE IF NOT EXISTS destacados (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre TEXT,
+        orden TEXT
+        activa BOOLEAN
+        )
+            `)
 
 /*db.run(`
 UPDATE USUARIOS SET saldo = ? where usuario = ?
