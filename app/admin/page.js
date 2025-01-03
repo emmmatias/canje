@@ -498,9 +498,9 @@ export default function Admin(){
                         <label htmlFor="nom">Nombre</label><br/>
                         <input id="nom" onChange={(e) => {setUser_ed(prev => ({...prev, nombre: e.target.value}))}} value={user_ed.nombre} placeholder="nombre"/><br/>
                         <label htmlFor="dni">Dni</label><br/>
-                        <input id="dni" onChange={(e) => {setUser_ed(prev => ({...prev, dni: e.target.value}))}} value={user_ed.contraseña}  placeholder="dni" /><br/>
+                        <input id="dni" onChange={(e) => {setUser_ed(prev => ({...prev, dni: e.target.value}))}} value={user_ed.dni}  placeholder="dni" /><br/>
                         <label htmlFor="tel">Telefono</label><br/>
-                        <input id="tel" onChange={(e) => {setUser_ed(prev => ({...prev, telefono: e.target.value}))}} value={user_ed.contraseña}  placeholder="telefono" /><br/>
+                        <input id="tel" onChange={(e) => {setUser_ed(prev => ({...prev, telefono: e.target.value}))}} value={user_ed.telefono}  placeholder="telefono" /><br/>
                         <label htmlFor="us">Usuario</label><br/>
                         <input id="us" onChange={(e) => {setUser_ed(prev => ({...prev, usuario: e.target.value}))}} value={user_ed.usuario}  placeholder="usuario" /><br/>
                         <label htmlFor="con">Contraseña</label><br/>
