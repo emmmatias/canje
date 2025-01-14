@@ -172,6 +172,7 @@ export default function Catalogo(){
                 setCarrito({items: []})
                 setOpenchart(false)
                 setConset(false)
+                setUser_data(prev => ({ ...prev, saldo: 0}))
                 router.push('/gracias')
             }
             if(!response.ok){
@@ -318,7 +319,7 @@ export default function Catalogo(){
             </div>
             <div>
                 <input onChange={(e) => {setBusqueda(e.target.value)}} placeholder="¿Que estás buscando?"/>
-                <select onChange={(e) => {setCategorias(e.target.value)}}>
+                {/*<select onChange={(e) => {setCategorias(e.target.value)}}>
                     <option value={'todas'}>todas</option>
                     <option value={'temperas'}>temperas</option>
                     <option value={'sacapuntas'}>sacapuntas</option>
@@ -339,7 +340,7 @@ export default function Catalogo(){
                     <option value={'marcadores'}>marcadores</option>
                     <option value={'resaltadores'}>resaltadores</option>
 
-                </select>
+                </select>*/}
             </div>
             <div>
             <div style={{backgroundColor:"rgb(248, 248, 0)", color:"black", borderRadius:"10px"}}>
