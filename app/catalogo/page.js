@@ -8,6 +8,7 @@ import WhatsAppButton from "@/componentes/wpp"
 import jsPDF from 'jspdf'
 import Image from 'next/image'
 import { useRouter } from "next/navigation"
+import Loader from "@/componentes/loader"
 
 
 export default function Catalogo(){
@@ -42,6 +43,9 @@ export default function Catalogo(){
 
     const carritoRef = useRef(carrito);
     useEffect(() => {
+        if(!token){
+            router.push('/')
+        }
         console.log(
             `
             DATOS DEL CONTEXTO:
@@ -314,191 +318,196 @@ export default function Catalogo(){
 
     return(
         <>
-        <nav>
-            <div>
-            <Image src={`/logo_tienda3.png`} className="logo" width={80} height={80} alt={'logo'} layout="responsive"  quality={100}/>
-            </div>
-            <div>
-                <input onChange={(e) => {setBusqueda(e.target.value)}} placeholder="¿Que estás buscando?"/>
-                {/*<select onChange={(e) => {setCategorias(e.target.value)}}>
-                    <option value={'todas'}>todas</option>
-                    <option value={'temperas'}>temperas</option>
-                    <option value={'sacapuntas'}>sacapuntas</option>
-                    <option value={'plastilina'}>plastilina</option>
-                    <option value={'pincel'}>pincel</option>
-                    <option value={'plastilina'}>plastilina</option>
-                    <option value={'papel glace'}>papel glace</option>
-                    <option value={'plastilina'}>plastilina</option>
-                    <option value={'lapices'}>lapices</option>
-                    <option value={'pinturita'}>pinturita</option>
-                    <option value={'goma'}>goma</option>
-                    <option value={'cuadernos'}>cuadernos</option>
-                    <option value={'block'}>block</option>
-                    <option value={'repuestos'}>repuestos</option>
-                    <option value={'carpeta'}>categorias</option>
-                    <option value={'folios'}>folios</option>
-                    <option value={'corrector'}>corrector</option>
-                    <option value={'marcadores'}>marcadores</option>
-                    <option value={'resaltadores'}>resaltadores</option>
-
-                </select>*/}
-            </div>
-            <div>
-            <div style={{backgroundColor:"rgb(248, 248, 0)", color:"black", borderRadius:"10px"}}>
-                Puntos restantes: { user_data.saldo ? user_data.saldo.toFixed(2): 0}
-            </div>
-            {
-                ordenes && <button onClick={(e) => {setOpenOr(true)}} className="open-btn1">Ver ordenes</button>
-            }
-            </div>
-            <div>
-                <button className={carrito.items.length > 0 ? "cart-button2" : "cart-button"} onClick={(e) => setOpenchart(true)}>
-                <FontAwesomeIcon icon={faShoppingCart} />
-                    Ir al carrito {`${carrito.items.length > 0 ? carrito.items.length : ''}`}
-                </button>
-            </div>
-        </nav>
         {
-            consent && <div className="popup">
-                <h6>¿Estas seguro de finalizar?</h6>
-                <p>Las compras son únicas, es decir que una vez finalices tu compra no podrás hacer otra.
-                Los puntos restantes se eliminarán de tu cuenta
-                </p>
-                <p>Te quedan: {user_data.saldo} puntos restantes</p>
-                <button onClick={(e) => {finalizar()}} className="open-btn">Finalizar</button>
-                <button className="close-btn">Cancelar</button>
-            </div>
-        }
-        {
-            !detail && <div className="grid_container">
+            token ?
+            <>
+            <nav>
+                <div>
+                <Image src={`/logo_tienda3.png`} className="logo" width={80} height={80} alt={'logo'} layout="responsive"  quality={100}/>
+                </div>
+                <div>
+                    <input onChange={(e) => {setBusqueda(e.target.value)}} placeholder="¿Que estás buscando?"/>
+                    {/*<select onChange={(e) => {setCategorias(e.target.value)}}>
+                        <option value={'todas'}>todas</option>
+                        <option value={'temperas'}>temperas</option>
+                        <option value={'sacapuntas'}>sacapuntas</option>
+                        <option value={'plastilina'}>plastilina</option>
+                        <option value={'pincel'}>pincel</option>
+                        <option value={'plastilina'}>plastilina</option>
+                        <option value={'papel glace'}>papel glace</option>
+                        <option value={'plastilina'}>plastilina</option>
+                        <option value={'lapices'}>lapices</option>
+                        <option value={'pinturita'}>pinturita</option>
+                        <option value={'goma'}>goma</option>
+                        <option value={'cuadernos'}>cuadernos</option>
+                        <option value={'block'}>block</option>
+                        <option value={'repuestos'}>repuestos</option>
+                        <option value={'carpeta'}>categorias</option>
+                        <option value={'folios'}>folios</option>
+                        <option value={'corrector'}>corrector</option>
+                        <option value={'marcadores'}>marcadores</option>
+                        <option value={'resaltadores'}>resaltadores</option>
+    
+                    </select>*/}
+                </div>
+                <div>
+                <div style={{backgroundColor:"rgb(248, 248, 0)", color:"black", borderRadius:"10px"}}>
+                    Puntos restantes: { user_data.saldo ? user_data.saldo.toFixed(2): 0}
+                </div>
                 {
-                productos.length > 0 ? productos.map((el, index) => {
-                    let path = el.imagenes
-                    //let path1 = path.split("public\\")
-                    if(el.stock > 0){
-                        return(
-                            <div key={index} className="card" onClick={(e) => {setDetail(productos[index])}}>
-                                <Image className="card-image"  quality={100} layout="responsive" src={`/${path}`} width={80} height={80} alt={el.nombre}/>
-                                <div style={{ maxHeight: "100%", padding:"5%", backgroundColor:"rgb(248, 248, 0)", display:"grid", gridTemplateColumns:"1fr", gap:"3%"}}>
-                                <h4>{el.nombre}</h4>
-                                <p>{el.descripcion}</p>
-                                <h5>Costo: {el.costo}</h5>
-                                {/*<p className="sub">Quedan: {el.stock}</p>*/}
-                                </div>
-                            </div>
-                        )
-                    }
-                }) : <h4>No hay productos para mostrar</h4>
-                }</div>
-        }
-        {
-            openOr && <div className="popup2">
-                <div>
-                <button className="close-btn1" onClick={(e) => {setOpenOr(false)}}>Cerrar</button>
-                <h6>Tus ordenes</h6>
+                    ordenes && <button onClick={(e) => {setOpenOr(true)}} className="open-btn1">Ver ordenes</button>
+                }
                 </div>
                 <div>
-                    {
-                        ordenes.ordenes.map((el, index) => {
-                            return(
-                            <div style={{marginBottom:"5%"}} key={index}>
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <td>Id</td>
-                                            <td>Detalle</td>
-                                            <td>Saldo actual</td>
-                                            <td>Estado</td>
-                                            <td>Acciones</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>{el.orden_id}</td>
-                                            <td>{el.articulos}</td>
-                                            <td>{fui(el.saldo)}</td>
-                                            <td>{el.estado}</td>
-                                            <td><button className="open-btn1" onClick={(e) => {generatePDF(e, el.orden_id, el)}}>Descargar</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>)
-                        })
-                    }
+                    <button className={carrito.items.length > 0 ? "cart-button2" : "cart-button"} onClick={(e) => setOpenchart(true)}>
+                    <FontAwesomeIcon icon={faShoppingCart} />
+                        Ir al carrito {`${carrito.items.length > 0 ? carrito.items.length : ''}`}
+                    </button>
                 </div>
-            </div>
-        }
-        {
-            detail && <div className="popup">
-            <h3 style={{marginBottom:"2%"}}>{detail.nombre}</h3>
-            <Image src={`/${detail.imagenes}`} layout="responsive" quality={100} width={200} height={200} alt={detail.nombre}/><br/>
-            <p style={{marginTop:"2%"}}>{detail.descripcion}</p>
-            <p style={{marginTop:"2%"}}>{detail.costo} puntos</p>
+            </nav>
             {
-                calc_max(detail.costo) <= 0 ? <p style={{marginTop:"2%"}}>No tienes saldo suficiente</p> : <div style={{marginTop:"4%"}}>
-                <label htmlFor="costo">Cantidad</label>
-                <input id="costo" placeholder="cantidad" min={0} max={calc_max(detail.costo) < detail.stock ? calc_max(detail.costo) : detail.stock} value={cantidad} type="number" onChange={(e) => setCantidad(e.target.value)}/><br/>
-                {detail.variantes.length > 0 && <>
-                <label>Variantes</label>
-                <select onChange={(e) => setVariante(e.target.value)} id="variantes">
-                <option value={'Sin preferencia'}>{'Elegí uno'}</option>
-                    {
-                        detail.variantes.split(',').map((el,index) => {
-                            return(
-                                <option key={index} value={el}>{el}</option>
-                            )
-                        })
-                    }
-                </select>
-                </>}
-                {cantidad > 0 && <button className="open-btn" onClick={(e) => {handleAñadir(e, detail.id, detail.nombre, detail.costo, cantidad, variante)}}>Añadir al carrito</button>}
+                consent && <div className="popup">
+                    <h6>¿Estas seguro de finalizar?</h6>
+                    <p>Las compras son únicas, es decir que una vez finalices tu compra no podrás hacer otra.
+                    Los puntos restantes se eliminarán de tu cuenta
+                    </p>
+                    <p>Te quedan: {user_data.saldo} puntos restantes</p>
+                    <button onClick={(e) => {finalizar()}} className="open-btn">Finalizar</button>
+                    <button className="close-btn">Cancelar</button>
                 </div>
             }
-            <button className="close-btn" onClick={(e) => {setDetail(null); setCantidad(0)}}>cerrar</button>
-            </div>
-        }
-        {
-            openChart && 
-            <div className="chart" style={{maxHeight: '90vh', overflowY: 'auto'}}>
-                <div>
-                <div>
-                <h3>Tu carrito</h3>
-                <h6>Revisa y modifica los productos que seleccionaste</h6>
-                </div>
-                <div>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <td>Item</td>
-                            <td>Cantidad</td>
-                            <td>Costo total</td>
-                            <td>Acciones</td>
-                        </tr>
-                    </thead>
-                    <tbody>
+            {
+                !detail && <div className="grid_container">
+                    {
+                    productos.length > 0 ? productos.map((el, index) => {
+                        let path = el.imagenes
+                        //let path1 = path.split("public\\")
+                        if(el.stock > 0){
+                            return(
+                                <div key={index} className="card" onClick={(e) => {setDetail(productos[index])}}>
+                                    <Image className="card-image"  quality={100} layout="responsive" src={`/${path}`} width={80} height={80} alt={el.nombre}/>
+                                    <div style={{ maxHeight: "100%", padding:"5%", backgroundColor:"rgb(248, 248, 0)", display:"grid", gridTemplateColumns:"1fr", gap:"3%"}}>
+                                    <h4>{el.nombre}</h4>
+                                    <p>{el.descripcion}</p>
+                                    <h5>Costo: {el.costo}</h5>
+                                    {/*<p className="sub">Quedan: {el.stock}</p>*/}
+                                    </div>
+                                </div>
+                            )
+                        }
+                    }) : <h4>No hay productos para mostrar</h4>
+                    }</div>
+            }
+            {
+                openOr && <div className="popup2">
+                    <div>
+                    <button className="close-btn1" onClick={(e) => {setOpenOr(false)}}>Cerrar</button>
+                    <h6>Tus ordenes</h6>
+                    </div>
+                    <div>
                         {
-                            carrito.items.map((el, index) => {
+                            ordenes.ordenes.map((el, index) => {
                                 return(
-                                    <tr key={index}>
-                                        <td>{el.nombre}</td>
-                                        <td>{el.cantidad}</td>
-                                        <td>{el.cantidad * el.costo}</td>
-                                        <td><button className="close-btn" onClick={(e) => {delete_(e, index)}}>Eliminar</button></td>
-                                    </tr>
+                                <div style={{marginBottom:"5%"}} key={index}>
+                                    <table className="table">
+                                        <thead>
+                                            <tr>
+                                                <td>Id</td>
+                                                <td>Detalle</td>
+                                                <td>Saldo actual</td>
+                                                <td>Estado</td>
+                                                <td>Acciones</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>{el.orden_id}</td>
+                                                <td>{el.articulos}</td>
+                                                <td>{fui(el.saldo)}</td>
+                                                <td>{el.estado}</td>
+                                                <td><button className="open-btn1" onClick={(e) => {generatePDF(e, el.orden_id, el)}}>Descargar</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>)
+                            })
+                        }
+                    </div>
+                </div>
+            }
+            {
+                detail && <div className="popup">
+                <h3 style={{marginBottom:"2%"}}>{detail.nombre}</h3>
+                <Image src={`/${detail.imagenes}`} layout="responsive" quality={100} width={200} height={200} alt={detail.nombre}/><br/>
+                <p style={{marginTop:"2%"}}>{detail.descripcion}</p>
+                <p style={{marginTop:"2%"}}>{detail.costo} puntos</p>
+                {
+                    calc_max(detail.costo) <= 0 ? <p style={{marginTop:"2%"}}>No tienes saldo suficiente</p> : <div style={{marginTop:"4%"}}>
+                    <label htmlFor="costo">Cantidad</label>
+                    <input id="costo" placeholder="cantidad" min={0} max={calc_max(detail.costo) < detail.stock ? calc_max(detail.costo) : detail.stock} value={cantidad} type="number" onChange={(e) => setCantidad(e.target.value)}/><br/>
+                    {detail.variantes.length > 0 && <>
+                    <label>Variantes</label>
+                    <select onChange={(e) => setVariante(e.target.value)} id="variantes">
+                    <option value={'Sin preferencia'}>{'Elegí uno'}</option>
+                        {
+                            detail.variantes.split(',').map((el,index) => {
+                                return(
+                                    <option key={index} value={el}>{el}</option>
                                 )
                             })
                         }
-                    </tbody>
-                </table>
+                    </select>
+                    </>}
+                    {cantidad > 0 && <button className="open-btn" onClick={(e) => {handleAñadir(e, detail.id, detail.nombre, detail.costo, cantidad, variante)}}>Añadir al carrito</button>}
+                    </div>
+                }
+                <button className="close-btn" onClick={(e) => {setDetail(null); setCantidad(0)}}>cerrar</button>
                 </div>
-                <div>
-                <button className="close-btn" onClick={(e) => {setOpenchart(false)}}>Cerrar</button>
-                <button className="open-btn" onClick={(e) => {handlefin(e)}}>Finalizar</button>
+            }
+            {
+                openChart && 
+                <div className="chart" style={{maxHeight: '90vh', overflowY: 'auto'}}>
+                    <div>
+                    <div>
+                    <h3>Tu carrito</h3>
+                    <h6>Revisa y modifica los productos que seleccionaste</h6>
+                    </div>
+                    <div>
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <td>Item</td>
+                                <td>Cantidad</td>
+                                <td>Costo total</td>
+                                <td>Acciones</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                carrito.items.map((el, index) => {
+                                    return(
+                                        <tr key={index}>
+                                            <td>{el.nombre}</td>
+                                            <td>{el.cantidad}</td>
+                                            <td>{el.cantidad * el.costo}</td>
+                                            <td><button className="close-btn" onClick={(e) => {delete_(e, index)}}>Eliminar</button></td>
+                                        </tr>
+                                    )
+                                })
+                            }
+                        </tbody>
+                    </table>
+                    </div>
+                    <div>
+                    <button className="close-btn" onClick={(e) => {setOpenchart(false)}}>Cerrar</button>
+                    <button className="open-btn" onClick={(e) => {handlefin(e)}}>Finalizar</button>
+                    </div>
+                    </div>
                 </div>
-                </div>
-            </div>
+            }
+            <WhatsAppButton/>
+            </> : <Loader/>
         }
-        <WhatsAppButton/>
         </>
     )
 }
