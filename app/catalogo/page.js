@@ -4,6 +4,7 @@ import { useContext, useState, useEffect, useRef} from "react"
 import { authContext } from "@/componentes/authProvider"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import WhatsAppButton from "@/componentes/wpp"
 import jsPDF from 'jspdf'
 import Image from 'next/image'
 import { useRouter } from "next/navigation"
@@ -497,6 +498,7 @@ export default function Catalogo(){
                 </div>
             </div>
         }
+        <WhatsAppButton/>
         </>
     )
 }
