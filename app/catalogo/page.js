@@ -38,6 +38,7 @@ export default function Catalogo(){
         setToken,
         setIsAutenticated
     } = useContext(authContext)
+    const [ss, seTss] = useState(false)
     
     const router = useRouter()
 
@@ -261,6 +262,7 @@ export default function Catalogo(){
     useEffect(() => {
         carritoRef.current = carrito;
       }, [carrito])
+
 
     useEffect(() => {
         // Datos a enviar al servidor
