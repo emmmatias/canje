@@ -5,6 +5,9 @@ import path from 'path'
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path'
 
+// Forzar renderizado dinámico para evitar caché estático
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 const SECRET_KEY = process.env.JWT_SECRET
 
@@ -54,7 +57,6 @@ export const PUT = async (req, res) => {
 
 export const DELETE = async (req, res) => {
     const { id, token} = await req.json()
-    console.log('EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE', id)
     try {
         jwt.verify(token, SECRET_KEY)
         const db = await database()

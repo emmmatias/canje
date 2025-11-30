@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'standalone',
+    // Desactivar optimización de imágenes para permitir imágenes dinámicas
+    images: {
+        unoptimized: true,
+    },
     async headers() {
         return [
             {

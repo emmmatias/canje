@@ -3,10 +3,8 @@ import jwt, { decode } from 'jsonwebtoken'
 
 const SECRET_KEY = process.env.JWT_SECRET
 const ADMIN_PASS = process.env.ADMIN_PASS
-console.log(ADMIN_PASS)
 export const POST = async (req, res) => {
     const { passw } = await req.json()
-    console.log(passw)
     if(passw == ADMIN_PASS){
         const token = jwt.sign({admin: 'admin'}, SECRET_KEY, {expiresIn: '4h'})
         return new Response(JSON.stringify({ token }), {

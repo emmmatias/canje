@@ -6,11 +6,17 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path'
 import { verify } from 'crypto';
 
+// Forzar renderizado dinámico para evitar caché estático
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 const SECRET_KEY = process.env.JWT_SECRET
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename)
-const directoryPath = path.join(__dirname, '../../../public')
+// Usar process.cwd() para obtener el directorio raíz de la aplicación
+// Esto funciona tanto en desarrollo como en producción standalone
+const directoryPath = path.join(process.cwd(), 'public')
 
 const deleteFile = (absoluteFilePath) => {
     // Verificar si el archivo existe antes de intentar eliminarlo
@@ -26,7 +32,6 @@ const deleteFile = (absoluteFilePath) => {
           console.error(`Error al eliminar el archivo: ${err}`);
           return;
         }
-        console.log(`Archivo eliminado exitosamente: ${absoluteFilePath}`);
       });
     });
   };
@@ -98,8 +103,9 @@ export const DELETE = async (req, res) => {
         const imagen = await db.get(`
         SELECT * FROM productos where id = ?
             `,[id])
-        console.log(imagen.imagenes)
-        deleteFile(imagen.imagenes)
+        // Construir la ruta completa del archivo
+        const absoluteFilePath = path.join(directoryPath, imagen.imagenes)
+        deleteFile(absoluteFilePath)
         await db.run(`
         DELETE FROM productos WHERE id = ?
             `, [id])
@@ -125,14 +131,12 @@ export const PUT = async (req, res) => {
     const descripcion = formData.get('descripcion')
     const variantes = formData.get('variantes') || ''
     const categorias = formData.get('categorias') || ''
-    console.log(categorias)
     try {
         jwt.verify(token, SECRET_KEY)
         const db = await database()
         await db.run(`
         UPDATE productos set nombre = ?, costo = ?, stock = ?, descripcion = ?, variantes = ?, categorias = ? where id = ?  
             `, [nombre, costo, stock,descripcion, variantes, categorias, id])
-            console.log(nombre, costo, stock, descripcion, variantes, categorias)
             return new Response(JSON.stringify({message: 'Operacion Exitosa'}), {
                 status: 200
             })

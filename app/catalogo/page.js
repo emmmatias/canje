@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import WhatsAppButton from "@/componentes/wpp"
 import jsPDF from 'jspdf'
-import Image from 'next/image'
 import { useRouter } from "next/navigation"
 import Loader from "@/componentes/loader"
 
@@ -15,6 +14,7 @@ export default function Catalogo(){
     const [categorias, setCategorias] = useState('todas')
     const [busqueda, setBusqueda] = useState('')
     const [productos, setProductos] = useState([])
+    const [productosOriginales, setProductosOriginales] = useState([]) // Array original sin filtrar
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
     const [pedido1, setPedido1] = useState('')
@@ -47,13 +47,6 @@ export default function Catalogo(){
         if(!token){
             router.push('/')
         }
-        console.log(
-            `
-            DATOS DEL CONTEXTO:
-            ${token}
-            ${JSON.stringify(user_data)}
-            `
-        )
     }, [])
 
     const obtener_catalogo = async () => {
@@ -63,16 +56,17 @@ export default function Catalogo(){
                 method:'POST',
                 body: JSON.stringify({
                     token
-                })
+                }),
+                cache: 'no-store' // Evitar caché en el cliente
             })
             if(response.ok){
                 let data = await response.json()
                 setLoading(false)
-                console.log(data)
                 setProductos(data.catalogo)
+                setProductosOriginales(data.catalogo) // Guardar copia original
             }
         } catch (error) {
-            
+            setLoading(false)
         }
     }
 
@@ -97,10 +91,6 @@ export default function Catalogo(){
     }
 
     useEffect(() => {
-        console.log('sddddddddddddddddddddddddddddd', ordenes)
-    }, [ordenes])
-
-    useEffect(() => {
         obtener_catalogo()
         obtener_ordenes()
     }, [])
@@ -115,11 +105,9 @@ export default function Catalogo(){
             costo
         }
         setPedido1(pedido)
-        console.log(pedido)
         let saldo_previo = Number(user_data.saldo)
         let user_data_previa = user_data
         let carrito_previo = carrito
-        console.log(saldo_previo, typeof(saldo_previo))
         if((Number(saldo_previo) - (Number(costo) * Number(cantidad))) >= 0 ){
             setUser_data(prev => ({ ...prev, saldo: Number(saldo_previo - (Number(costo) * Number(cantidad)))}))
             const existe = carrito.items.some(item => item.nombre === pedido.nombre)
@@ -157,9 +145,6 @@ export default function Catalogo(){
             alert('No tienes saldo suficiente')
         }
     }
-    useEffect(() => {
-        console.log('DEtaliii', detail)
-    }, [detail])
 
     const handlefin = async (e) => {
         setConset(true)
@@ -214,18 +199,10 @@ export default function Catalogo(){
         }
     }
 
-    useEffect(()=> {
-        console.log(user_data)
-    },[user_data])
-    
-    useEffect(() => {
-        console.log(carrito)
-    },[carrito])
-
     useEffect(() => {
         if(categorias.length > 0){
             if(categorias != 'todas'){
-                const objetosFiltrados = productos.filter(objeto => {
+                const objetosFiltrados = productosOriginales.filter(objeto => {
                     return (
                         objeto.categorias.toLowerCase().includes(categorias.toLowerCase())
                     )
@@ -233,18 +210,17 @@ export default function Catalogo(){
                 setProductos([...objetosFiltrados])
             }
             if(categorias == 'todas'){
-                obtener_catalogo()
+                setProductos([...productosOriginales])
             }
         }
-    }, [categorias])
+    }, [categorias, productosOriginales])
 
     useEffect(() => {
-        console.log(productos)
         if(busqueda.length == 0){
-            obtener_catalogo()
+            setProductos([...productosOriginales])
         }
         if(busqueda.length > 0){
-        const objetosFiltrados = productos.filter(objeto => {
+        const objetosFiltrados = productosOriginales.filter(objeto => {
             return (
                 objeto.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
                 objeto.descripcion.toLowerCase().includes(busqueda.toLowerCase())
@@ -252,7 +228,7 @@ export default function Catalogo(){
         })
         setProductos([...objetosFiltrados])
         }
-    }, [busqueda])
+    }, [busqueda, productosOriginales])
 
     const handleBeforeUnload = async () => {
         const queryString = carrito.items.map(item => `items[]=${encodeURIComponent(item)}`).join('&')
@@ -325,7 +301,7 @@ export default function Catalogo(){
             <>
             <nav>
                 <div>
-                <Image src={`/logo_tienda3.png`} className="logo" width={80} height={80} alt={'logo'} layout="responsive"  quality={100}/>
+                <img src={`/logo_tienda3.png`} className="logo" alt={'logo'} style={{width: '80px', height: '80px'}}/>
                 </div>
                 <div>
                     <input onChange={(e) => {setBusqueda(e.target.value)}} placeholder="¿Que estás buscando?"/>
@@ -387,7 +363,7 @@ export default function Catalogo(){
                         if(el.stock > 0){
                             return(
                                 <div key={index} className="card" onClick={(e) => {setDetail(productos[index])}}>
-                                    <Image className="card-image"  quality={100} layout="responsive" src={`/${path}`} width={80} height={80} alt={el.nombre}/>
+                                    <img className="card-image" src={`/api/images/${path}`} alt={el.nombre} style={{width: '100%', height: 'auto'}}/>
                                     <div style={{ maxHeight: "100%", padding:"5%", backgroundColor:"rgb(248, 248, 0)", display:"grid", gridTemplateColumns:"1fr", gap:"3%"}}>
                                     <h4>{el.nombre}</h4>
                                     <p>{el.descripcion}</p>
@@ -440,7 +416,7 @@ export default function Catalogo(){
             {
                 detail && <div className="popup">
                 <h3 style={{marginBottom:"2%"}}>{detail.nombre}</h3>
-                <Image src={`/${detail.imagenes}`} layout="responsive" quality={100} width={200} height={200} alt={detail.nombre}/><br/>
+                <img src={`/api/images/${detail.imagenes}`} alt={detail.nombre} style={{width: '100%', maxWidth: '400px', height: 'auto'}}/><br/>
                 <p style={{marginTop:"2%"}}>{detail.descripcion}</p>
                 <p style={{marginTop:"2%"}}>{detail.costo} puntos</p>
                 {

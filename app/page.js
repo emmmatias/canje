@@ -36,7 +36,6 @@ export default function Home() {
         })
         if(response.ok){
           let data = await response.json()
-          console.log('daaaaaaaaataaaaaa', data)
           setToken(data.token)
           setUser_loged(data.match.usuario)
           setUser_data(data.match)

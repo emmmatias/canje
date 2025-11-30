@@ -13,7 +13,6 @@ export const POST = async (req, res) => {
         await carrito.items.forEach(async (el) => {
             let saldo = await db.get(`
                 select saldo from USUARIOS where id = ?`, [user_data.id])
-                console.log('saaaaaaaaaaaaaaaaaaaldo', saldo)
             if(Number(saldo.saldo) < 0 ){
                 return new Response(JSON.stringify({message: `No hay saldo suficiente`}), {
                     status: 500

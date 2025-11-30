@@ -5,7 +5,6 @@ const SECRET_KEY = process.env.JWT_SECRET
 
 export const POST = async (req, res) => {
     const { token, pedido } = await req.json()
-    console.log(pedido)
     try {
         const db = await database()
         let add = await db.run(`
