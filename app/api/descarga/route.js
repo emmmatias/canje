@@ -8,11 +8,8 @@ const ADMIN_PASS = process.env.ADMIN_PASS
 // localhost:3000/api/descarga?pass=****
 export const GET = async (req, res) => {
     const filePath = path.join(process.cwd(), './database.sqlite')
-    console.log('pathhhhhhhh', filePath)
     const { searchParams } = new URL(req.url)
     const admin_pass = searchParams.get('pass')
-
-    console.log('url:', admin_pass, 'env:', ADMIN_PASS)
 
     if(admin_pass == ADMIN_PASS){
 

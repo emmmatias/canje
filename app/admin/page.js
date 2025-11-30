@@ -1,7 +1,6 @@
 'use client'
 import { Passero_One } from "next/font/google"
 import { useContext, useState, useEffect } from "react"
-import Image from 'next/image'
 import jsPDF from 'jspdf'
 import Loader from "@/componentes/loader"
 
@@ -49,16 +48,18 @@ export default function Admin(){
                 method:'POST',
                 body: JSON.stringify({
                     token
-                })
+                }),
+                cache: 'no-store' // Evitar caché en el cliente
             })
             if(response.ok){
                 let data = await response.json()
-                console.log(data)
                 setDestacados(data.destacados.orden)
                 setProductos(data.catalogo)
+                setLoading(false)
             }
         } catch (error) {
             alert('Error, no se han podido encontrar los productos')
+            setLoading(false)
         }
     }
 
@@ -213,7 +214,6 @@ export default function Admin(){
         let response = await fetch(`/api/usuarios?token=${token}`)
         if(response.ok){
             let data = await response.json()
-            console.log(data)
             setUsuarios(data.usuarios)
         }
         if(!response.ok){
@@ -360,7 +360,6 @@ export default function Admin(){
         let response = await fetch(`/api/ordenes?token=${token}`)
         if(response.ok){
             let data = await response.json()
-            console.log('ORDENES', data)
             setOrdenes(data.ordenes)
         }
         if(!response.ok){
@@ -609,6 +608,9 @@ export default function Admin(){
                     <div >
                         <div>
                             <button className="open-btn" onClick={(e) => {setAdding(true)}}>Añadir producto</button>
+                            <button className="open-btn" onClick={(e) => {obtener_catalogo()}} style={{marginLeft: '10px'}}>
+                                {loading ? 'Cargando...' : 'Refrescar Catálogo'}
+                            </button>
                             <div>
                                 <h6>{'Separa por comas tus productos destacados (sus ids)'}</h6>
                                 <input onChange={(e) => {setDestacados(e.target.value)}} value={destacados}/>
@@ -644,7 +646,7 @@ export default function Admin(){
                                                         {el.id}
                                                     </td>
                                                     <td>
-                                                        <Image src={`${path}`} width={50} height={50} alt={el.nombre} quality={100} /><br/>
+                                                        <img src={`/api/images/${path.startsWith('/') ? path.substring(1) : path}`} alt={el.nombre} style={{width: '50px', height: '50px', objectFit: 'cover'}}/><br/>
                                                     </td>
                                                     <td>{el.nombre}</td>
                                                     <td>{el.descripcion}</td>

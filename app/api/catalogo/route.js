@@ -1,6 +1,10 @@
 import database from '@/componentes/db'
 import jwt, { decode } from 'jsonwebtoken'
 
+// Forzar renderizado dinámico para evitar caché estático
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 const SECRET_KEY = process.env.JWT_SECRET
 
 export const POST = async (req, res) => {
@@ -14,7 +18,6 @@ export const POST = async (req, res) => {
         let destacados = await db.get(`
             SELECT orden from destacados
             `)
-        console.log('destacadosssss', destacados)
         if(catalogo.length > 0){
             if(destacados.orden.length > 0){
                 let idOrder = destacados.orden.split(',').map(Number)

@@ -7,7 +7,6 @@ export const POST = async (req, res) => {
     const { user, pass } = await req.json()
     try {
         const db = await database()
-        console.log('user:', user, 'pass:', pass)
         let match = await db.get(`SELECT * FROM USUARIOS WHERE usuario = ? AND contraseña = ?`, [user, pass])
         if(match){
             const token = jwt.sign({usuario: match}, SECRET_KEY, { expiresIn: '4h' })

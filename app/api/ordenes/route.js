@@ -6,6 +6,10 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path'
 import { verify } from 'crypto';
 
+// Forzar renderizado dinámico para evitar caché estático
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 const SECRET_KEY = process.env.JWT_SECRET
 
 export const GET = async (req, res) => {
@@ -50,7 +54,6 @@ export const GET = async (req, res) => {
 
 export const POST = async (req, res) => {
     const id = await req.json()
-    console.log(id)
     
     try {
         const db = await database()
