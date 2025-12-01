@@ -351,7 +351,7 @@ export default function Catalogo(){
                     </p>
                     <p>Te quedan: {user_data.saldo} puntos restantes</p>
                     <button onClick={(e) => {finalizar()}} className="open-btn">Finalizar</button>
-                    <button className="close-btn">Cancelar</button>
+                    <button onClick={(e) => {setConset(false)}} className="close-btn">Cancelar</button>
                 </div>
             }
             {
