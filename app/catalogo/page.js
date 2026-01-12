@@ -301,7 +301,7 @@ export default function Catalogo(){
             <>
             <nav>
                 <div>
-                <img src={`/logo_tienda3.jpeg`} className="logo" alt={'logo'} style={{width: '80px', height: '80px'}}/>
+                <img src="/logo_tienda3.jpeg" className="logo" alt="logo" style={{width: '80px', height: '80px'}}/>
                 </div>
                 <div>
                     <input onChange={(e) => {setBusqueda(e.target.value)}} placeholder="¿Que estás buscando?"/>
