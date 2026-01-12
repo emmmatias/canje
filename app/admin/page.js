@@ -349,12 +349,29 @@ export default function Admin(){
 
     useEffect(() => {
         if(page == 'usuarios'){
-         onbtener_usuarios()
+         obtener_usuarios()
         }
         if(page == 'ordenes'){
             obtener_ordenes()
         }
     },[page])
+
+    const obtener_usuarios = async () => {
+        try {
+            let response = await fetch(`/api/usuarios?token=${token}`)
+            if(response.ok){
+                let data = await response.json()
+                setUsuarios(data.usuarios)
+            }
+            if(!response.ok){
+                let data = await response.json()
+                alert(`error: ${data.message}`)
+            }
+        } catch (error) {
+            console.error('Error al obtener usuarios:', error)
+            alert('Error al obtener usuarios')
+        }
+    }
 
     const obtener_ordenes = async (e) => {
         let response = await fetch(`/api/ordenes?token=${token}`)

@@ -8,13 +8,22 @@ export const revalidate = 0
 
 export async function GET(request, { params }) {
     try {
-        const { filename } = params
+        const { filename } = await params
+        
+        // Log para debugging
+        console.log(`[Images API] Solicitando: ${filename}`)
+        
         const imagePath = path.join(process.cwd(), 'public', filename)
+        
+        console.log(`[Images API] Ruta completa: ${imagePath}`)
         
         // Verificar si el archivo existe
         if (!fs.existsSync(imagePath)) {
+            console.warn(`[Images API] Archivo no encontrado: ${imagePath}`)
             return new NextResponse('Image not found', { status: 404 })
         }
+
+        console.log(`[Images API] ✓ Archivo encontrado`)
 
         // Leer el archivo
         const imageBuffer = fs.readFileSync(imagePath)
@@ -43,7 +52,7 @@ export async function GET(request, { params }) {
             },
         })
     } catch (error) {
-        console.error('Error serving image:', error)
+        console.error('[Images API] Error:', error)
         return new NextResponse('Error loading image', { status: 500 })
     }
 }

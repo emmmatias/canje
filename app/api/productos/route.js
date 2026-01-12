@@ -53,6 +53,7 @@ export const POST = async (req, res) => {
     const id_unico  = generarIdUnico()
     const originalFileName = file.name;
     const fileExtension = path.extname(originalFileName)
+    
     if(!nombre || !file){
         return new Response(JSON.stringify({ error: 'Faltan datos' }), {
             status: 400,
@@ -60,15 +61,29 @@ export const POST = async (req, res) => {
           })
     }
 
-    if (!fs.existsSync(directoryPath)) {
-        fs.mkdirSync(directoryPath, { recursive: true });
-      }
-    
-    const buffer = await file.arrayBuffer();
-    fs.writeFileSync(path.join(directoryPath, id_unico.concat(fileExtension)), Buffer.from(buffer))
-
     try {
         jwt.verify(token, SECRET_KEY)
+        
+        // Crear el directorio si no existe
+        if (!fs.existsSync(directoryPath)) {
+            fs.mkdirSync(directoryPath, { recursive: true });
+        }
+        
+        // Guardar el archivo
+        const fileName = id_unico.concat(fileExtension)
+        const filePath = path.join(directoryPath, fileName)
+        
+        const buffer = await file.arrayBuffer();
+        fs.writeFileSync(filePath, Buffer.from(buffer))
+        
+        console.log(`[Productos API] ✓ Archivo guardado: ${filePath}`)
+        
+        // Verificar que el archivo se guardó correctamente
+        if (!fs.existsSync(filePath)) {
+            throw new Error(`El archivo no se guardó correctamente: ${filePath}`)
+        }
+        
+        // Insertar en la BD
         const db = await database()
         await db.run(`
                 INSERT INTO productos (
@@ -82,12 +97,13 @@ export const POST = async (req, res) => {
                 ) VALUES (
                 ?,?,?,?,?,?,? 
                 )    
-        `,[`${id_unico.concat(fileExtension)}`, nombre, descripcion, categorias, costo, stock, variantes])
+        `,[fileName, nombre, descripcion, categorias, costo, stock, variantes])
+        
         return new Response(JSON.stringify({message: 'Operacion Exitosa'}), {
             status: 200
         })
     } catch (error) {
-        console.error(error)
+        console.error('[Productos API] Error:', error)
         return new Response(JSON.stringify({message: `${error}`}), {
             status: 500
         })
