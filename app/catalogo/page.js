@@ -301,7 +301,7 @@ export default function Catalogo(){
             <>
             <nav>
                 <div>
-                <img src={`/logo_tienda3.png`} className="logo" alt={'logo'} style={{width: '80px', height: '80px'}}/>
+                <img src={`/logo_tienda3.jpeg`} className="logo" alt={'logo'} style={{width: '80px', height: '80px'}}/>
                 </div>
                 <div>
                     <input onChange={(e) => {setBusqueda(e.target.value)}} placeholder="¿Que estás buscando?"/>
@@ -351,7 +351,7 @@ export default function Catalogo(){
                     </p>
                     <p>Te quedan: {user_data.saldo} puntos restantes</p>
                     <button onClick={(e) => {finalizar()}} className="open-btn">Finalizar</button>
-                    <button className="close-btn">Cancelar</button>
+                    <button onClick={(e) => {setConset(false)}} className="close-btn">Cancelar</button>
                 </div>
             }
             {
